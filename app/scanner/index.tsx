@@ -18,7 +18,7 @@ export default function Home() {
   const qrLock = useRef(false);
   const appState = useRef(AppState.currentState);
 
-  const router = useRouter();
+  const navigation = useRouter();
 
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
@@ -52,10 +52,9 @@ export default function Home() {
           if (data && !qrLock.current) {
             qrLock.current = true;
             setTimeout(() => {
-              console.log("Scanned:", data);
               const parts = data.split("/");
               const orderId = parts[parts.length - 1];
-              router.push(`/show-details?orderId=${orderId}`)
+              navigation.replace(`/show-details?orderId=${orderId}`)
             }, 500);
           }
         }}
@@ -77,7 +76,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#d3d3d3',
   },
   buttonText: {
     color: '#fff',

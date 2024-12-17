@@ -2,9 +2,11 @@
   "expo": {
     "name": "BookShow Scanner",
     "slug": "bookshow-scanner",
+    "version": "1.0.1",
+    "orientation": "portrait",
     "extra": {
       "eas": {
-        "projectId": "your-project-id"
+        "projectId": "1bddeaf9-21f4-42f7-90f8-cd57e4e3b336"
       }
     }
   }

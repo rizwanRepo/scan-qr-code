@@ -30,7 +30,7 @@ export default function ShowDetails() {
                 [
                     {
                         text: "OK",
-                        onPress: () => navigation.push(`/scanner`),
+                        onPress: () => navigation.replace(`/scanner`),
                     },
                 ]
             );
@@ -70,7 +70,7 @@ export default function ShowDetails() {
                 [
                     {
                         text: "OK",
-                        onPress: () => navigation.push(`/`),
+                        onPress: () => navigation.replace(`/`),
                     },
                 ]
             );
@@ -81,7 +81,7 @@ export default function ShowDetails() {
                 [
                     {
                         text: "OK",
-                        onPress: () => error.response.status !== 400 && navigation.push(`/`),
+                        onPress: () => error.response.status !== 400 && navigation.replace(`/`),
                     },
                 ]
             );
@@ -127,7 +127,7 @@ export default function ShowDetails() {
                         <Text style={styles.label}>Number of Tickets</Text>
                         <Text style={styles.value}>{ticketInfo?.numberOfTickets || "0"}</Text>
                     </View>
-                    <View>
+                    <View style={{ marginRight: 7 }}>
                         <Text style={styles.label}>Already Entered</Text>
                         <Text style={styles.value}>{ticketInfo?.guestCheckIns || "0"}</Text>
                     </View>
