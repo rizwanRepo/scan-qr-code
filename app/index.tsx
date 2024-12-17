@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import { Link, Stack } from "expo-router";
-
 import { useCameraPermissions } from "expo-camera";
 
 export default function Home() {
@@ -8,25 +8,21 @@ export default function Home() {
 
   const isPermissionGranted = Boolean(permission?.granted);
 
+  useEffect(() => {
+    if (!isPermissionGranted) {
+      requestPermission();
+    }
+  }, [isPermissionGranted]);
+
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ title: "Overview", headerShown: false }} />
-      <Text style={styles.title}>QR Code Scanner</Text>
-      <View style={{ gap: 20 }}>
-        <Pressable onPress={requestPermission}>
-          <Text style={styles.buttonStyle}>Request Permissions</Text>
-        </Pressable>
+      <Text style={styles.title}>BookShow Online!</Text>
+      <View style={styles.scanButton}>
         <Link href={"/scanner"} asChild>
-          <Pressable disabled={!isPermissionGranted}>
-            <Text
-              style={[
-                styles.buttonStyle,
-                { opacity: !isPermissionGranted ? 0.5 : 1 },
-              ]}
-            >
-              Scan Code
-            </Text>
-          </Pressable>
+          <Text style={styles.buttonText}>
+            Scan QR Code
+          </Text>
         </Link>
       </View>
     </SafeAreaView>
@@ -45,9 +41,15 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 40,
   },
-  buttonStyle: {
-    color: "#0E7AFE",
-    fontSize: 20,
-    textAlign: "center",
+  scanButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

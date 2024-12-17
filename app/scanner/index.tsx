@@ -1,19 +1,24 @@
-import { Camera, CameraView } from "expo-camera";
-import { Stack } from "expo-router";
+import { useEffect, useRef } from "react";
+import { CameraView, } from "expo-camera";
+import { Link, Stack, useRouter } from "expo-router";
 import {
   AppState,
-  Linking,
   Platform,
+  Pressable,
   SafeAreaView,
   StatusBar,
   StyleSheet,
+  Text,
+  View,
 } from "react-native";
+
 import { Overlay } from "./Overlay";
-import { useEffect, useRef } from "react";
 
 export default function Home() {
   const qrLock = useRef(false);
   const appState = useRef(AppState.currentState);
+
+  const router = useRouter();
 
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
@@ -35,7 +40,7 @@ export default function Home() {
     <SafeAreaView style={StyleSheet.absoluteFillObject}>
       <Stack.Screen
         options={{
-          title: "Overview",
+          title: "Scanner",
           headerShown: false,
         }}
       />
@@ -46,13 +51,58 @@ export default function Home() {
         onBarcodeScanned={({ data }) => {
           if (data && !qrLock.current) {
             qrLock.current = true;
-            setTimeout(async () => {
-              await Linking.openURL(data);
+            setTimeout(() => {
+              console.log("Scanned:", data);
+              const parts = data.split("/");
+              const orderId = parts[parts.length - 1];
+              router.push(`/show-details?orderId=${orderId}`)
             }, 500);
           }
         }}
       />
       <Overlay />
+      <View style={styles.cancelButtonContainer}>
+        <Link href={"/"} asChild>
+          <Pressable>
+            <Text style={styles.buttonStyle}>
+              Cancel
+            </Text>
+          </Pressable>
+        </Link>
+      </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  backButton: {
+    color: '#007AFF',
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  cancelButtonContainer: {
+    position: 'absolute',
+    bottom: 40,
+    width: '100%',
+    alignItems: 'center',
+  },
+  buttonStyle: {
+    backgroundColor: 'red',
+    paddingHorizontal: 30,
+    color: "white",
+    paddingVertical: 15,
+    borderRadius: 8,
+    marginBottom: 100,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});

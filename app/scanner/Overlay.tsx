@@ -9,7 +9,7 @@ const outer = rrect(rect(0, 0, width, height), 0, 0);
 const inner = rrect(
   rect(
     width / 2 - innerDimension / 2,
-    height / 2 - innerDimension / 2,
+    80,
     innerDimension,
     innerDimension
   ),
